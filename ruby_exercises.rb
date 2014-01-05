@@ -11,7 +11,7 @@ my_array.each { |value| puts value if value > 5 }   # [6, 7, 8, 9, 10]
 # 3. Now, using the same array from #2, use the "select" method to extract all odd numbers into a new array.
 
 new_array = my_array.select { |value| value % 2 != 0 }  # [1, 3, 5, 7, 9]
-### alternatively:  my_array.select { |value| value.odd? }
+new_array = my_array.select { |value| value.odd? }  ## BETTER ALTERNATIVE
 
 # 4. Append "11" to the end of the array. Prepend "0" to the beginning.
 
@@ -31,7 +31,7 @@ new_array.uniq!       # [0, 1, 3, 5, 7, 9]
 
 # 7. What's the major difference between an Array and a Hash?
 
-### The major difference is that an array uses Integers as its index value, 
+### The major difference is that an array uses ordered Integers as its index value, 
 ### while a Hash can use any object type as its key
 
 # 8. Create a Hash using both Ruby 1.8 and 1.9 syntax.
@@ -51,7 +51,7 @@ h[:e] = 5
 
 # 13. Remove all key:value pairs whose value is less than 3.5
 
-h.select! { |key, value| value < 3.5 }
+h.delete_if { |k, v| v < 3.5  # also h.select! { |key, value| value >= 3.5 }
 
 # 14. Can hash values be arrays? Can you have an array of hashes? (give examples)
 
@@ -60,7 +60,7 @@ h.select! { |key, value| value < 3.5 }
 array1 = [0,1]
 array2 = [2,3]
 hash1 = { array1: array1, array2: array2 }  # {:array1=>[0, 1], :array2=>[2, 3]}
-
+  
 ### Yes, you can have an array of hashes. Example below:
 
 hash_dogs = { noise: "bark", enemy: "cats" }
