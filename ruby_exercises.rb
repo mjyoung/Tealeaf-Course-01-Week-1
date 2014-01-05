@@ -10,21 +10,24 @@ my_array.each { |value| puts value if value > 5 }   # [6, 7, 8, 9, 10]
 
 # 3. Now, using the same array from #2, use the "select" method to extract all odd numbers into a new array.
 
-odd_array = my_array.select { |value| value % 2 != 0 }  # [1, 3, 5, 7, 9]
+new_array = my_array.select { |value| value % 2 != 0 }  # [1, 3, 5, 7, 9]
+### alternatively:  my_array.select { |value| value.odd? }
 
 # 4. Append "11" to the end of the array. Prepend "0" to the beginning.
 
-odd_array.insert(0,0)   # insert(index.obj)  [0, 1, 3, 5, 7, 9]
-odd_array.insert(-1,11) # alternatively, odd_array.push(11)  [0, 1, 3, 5, 7, 9, 11]  
+new_array.insert(0,0)   # insert(index.obj)  [0, 1, 3, 5, 7, 9]
+                        # new_array.unshift(0)  unshift adds a value to the beginning
+new_array.insert(-1,11) # alternatively, new_array << 11, or new_array.push(11)  [0, 1, 3, 5, 7, 9, 11]  
+
 
 # 5. Get rid of "11". And append a "3".
 
-odd_array.delete(11)  # [0, 1, 3, 5, 7, 9]
-odd_array.push(3)     # [0, 1, 3, 5, 7, 9, 3]
+new_array.delete(11)  # [0, 1, 3, 5, 7, 9]
+new_array.push(3)     # [0, 1, 3, 5, 7, 9, 3]
 
 # 6. Get rid of duplicates without specifically removing any one value. 
 
-odd_array.uniq!       # [0, 1, 3, 5, 7, 9]
+new_array.uniq!       # [0, 1, 3, 5, 7, 9]
 
 # 7. What's the major difference between an Array and a Hash?
 
