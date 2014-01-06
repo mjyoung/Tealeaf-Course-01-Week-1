@@ -122,6 +122,9 @@ def check_if_game_over(hand, total, current_turn)
 	elsif hand.size > 2 && total > 21 && current_turn == "player"
 		puts "You BUST! Dealer wins!"
 		current_turn = "nobody"
+	elsif total == 21 && current_turn == "dealer"
+		puts "Dealer has 21! Dealer wins!"
+		current_turn = "nobody"
 	elsif total > 21 && current_turn == "dealer"
 		puts "Dealer BUSTS! You win!"
 		current_turn = "nobody"
@@ -130,7 +133,7 @@ def check_if_game_over(hand, total, current_turn)
 end
 
 def determine_winner(player_total, dealer_total)
-	puts player_total > dealer_total ? "You win!" : "Dealer wins!"
+	puts player_total > dealer_total || dealer_total > 21 ? "You win!" : "Dealer wins!"
 end
 
 puts "What is your name?"
@@ -167,13 +170,17 @@ while true
 
 	if game_over != 1
 			current_turn = "dealer"
-			hit_or_stay_hash = hit_or_stay(current_deck, dealer_hand, current_turn)
-			current_deck = hit_or_stay_hash[:current_deck]
-			dealer_hand = hit_or_stay_hash[:hand]
-			dealer_total = hit_or_stay_hash[:total]	
+			game_over = check_if_game_over(dealer_hand, dealer_total, current_turn)
+			if game_over != 1
+				hit_or_stay_hash = hit_or_stay(current_deck, dealer_hand, current_turn)
+				current_deck = hit_or_stay_hash[:current_deck]
+				dealer_hand = hit_or_stay_hash[:hand]
+				dealer_total = hit_or_stay_hash[:total]	
+				game_over = hit_or_stay_hash[:game_over]
 
-			current_turn = "nobody"
-			determine_winner(player_total, dealer_total) 
+				current_turn = "nobody"
+				determine_winner(player_total, dealer_total) if game_over != 1
+			end
 	end
 
 	puts "Would you like to play another game? [Y] or [N]"
@@ -182,3 +189,5 @@ while true
 
 end
 	
+# need to refactor code
+# also need to get the "Ace" counting right 
