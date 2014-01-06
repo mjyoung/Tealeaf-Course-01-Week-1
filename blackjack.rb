@@ -1,8 +1,184 @@
-if 
-else
-	asdad
-	asdasdsd
-	asd
-  asd
-	
+require 'pry'
+
+def start_game
+	current_deck = [
+		["Ace",   "Clubs"], ["Ace",   "Diamonds"], ["Ace",   "Hearts"], ["Ace",   "Spades"],
+		["King",  "Clubs"], ["King",  "Diamonds"], ["King",  "Hearts"], ["King",  "Spades"],
+		["Queen", "Clubs"], ["Queen", "Diamonds"], ["Queen", "Hearts"], ["Queen", "Spades"],
+		["Jack",  "Clubs"], ["Jack",  "Diamonds"], ["Jack",  "Hearts"], ["Jack",  "Spades"],
+		["2",     "Clubs"], ["2",     "Diamonds"], ["2",     "Hearts"], ["2",     "Spades"],
+		["3",     "Clubs"], ["3",     "Diamonds"], ["3",     "Hearts"], ["3",     "Spades"],
+		["4",     "Clubs"], ["4",     "Diamonds"], ["4",     "Hearts"], ["4",     "Spades"],
+		["5",     "Clubs"], ["5",     "Diamonds"], ["5",     "Hearts"], ["5",     "Spades"],
+		["6",     "Clubs"], ["6",     "Diamonds"], ["6",     "Hearts"], ["6",     "Spades"],
+		["7",     "Clubs"], ["7",     "Diamonds"], ["7",     "Hearts"], ["7",     "Spades"],
+		["8",     "Clubs"], ["8",     "Diamonds"], ["8",     "Hearts"], ["8",     "Spades"],
+		["9",     "Clubs"], ["9",     "Diamonds"], ["9",     "Hearts"], ["9",     "Spades"],
+		["10",    "Clubs"], ["10",    "Diamonds"], ["10",    "Hearts"], ["10",    "Spades"]
+	]
+
+	player_hand = current_deck.sample(2)
+	current_deck.delete(player_hand[0])
+	current_deck.delete(player_hand[1])
+
+	dealer_hand = current_deck.sample(2)
+	current_deck.delete(dealer_hand[0])
+	current_deck.delete(dealer_hand[1])
+
+	current_turn = "player"
+
+	{player_hand: player_hand,   dealer_hand: dealer_hand, 
+	 current_deck: current_deck, current_turn: current_turn}
 end
+
+def calculate_total(hand)
+	hand_total = 0
+	
+	hand.each do |card|
+		case card[0]
+		when "King"
+			hand_total += 10
+		when "Queen"
+			hand_total += 10
+		when "Jack"
+			hand_total += 10
+		when "10"
+			hand_total += 10
+		when "9"
+			hand_total += 9
+		when "8"
+			hand_total += 8
+		when "7"
+			hand_total += 7
+		when "6"
+			hand_total += 6
+		when "5"
+			hand_total += 5
+		when "4"
+			hand_total += 4
+		when "3"
+			hand_total += 3
+		when "2"
+			hand_total += 2
+		when "Ace"
+			if hand_total > 11
+				hand_total += 1
+			else
+				hand_total += 11
+			end
+		end
+	end
+	hand_total
+end
+
+def hit_or_stay(current_deck, hand, current_turn)
+	while true
+		if current_turn == "player"
+			puts "Would you like to [H]it or [S]tay?" 
+			response = gets.chomp
+			case response
+			when "H"
+				random_card = current_deck.sample(1)[0]
+				hand << random_card
+				current_deck.delete(random_card)
+				total = calculate_total(hand)
+				puts "You Hit! Your total is #{total}. Your cards are: "         
+				hand.each { |card| puts "#{card[0]} of #{card[1]}" }
+				game_over = check_if_game_over(hand, total, current_turn)
+				break if game_over == 1
+			when "S"
+				total = calculate_total(hand)
+				puts "You Stay! Your total is #{total}. Your cards are: "      
+				hand.each { |card| puts "#{card[0]} of #{card[1]}" }
+			break
+			end
+		else
+			total = calculate_total(hand)
+			if total < 17
+				random_card = current_deck.sample(1)[0]
+				hand << random_card
+				current_deck.delete(random_card)
+				total = calculate_total(hand)
+				puts "Dealer hits! Dealer's total is #{total}. Dealer's cards are: "  
+				hand.each { |card| puts "#{card[0]} of #{card[1]}" }
+				game_over = check_if_game_over(hand, total, current_turn)
+				break if game_over == 1
+			else 
+				puts "Dealer stays! Dealer's total is #{total}. Dealer's cards are: " 
+				hand.each { |card| puts "#{card[0]} of #{card[1]}" }
+				break
+			end
+		end
+	end
+
+	hit_or_stay_hash = { current_deck: current_deck, hand: hand, 
+											 total: total, game_over: game_over }
+end
+
+def check_if_game_over(hand, total, current_turn)
+	if hand.size == 2 && total == 21 && current_turn == "player"
+		puts "Blackjack! You win!"
+		current_turn = "nobody"
+	elsif hand.size > 2 && total > 21 && current_turn == "player"
+		puts "You BUST! Dealer wins!"
+		current_turn = "nobody"
+	elsif total > 21 && current_turn == "dealer"
+		puts "Dealer BUSTS! You win!"
+		current_turn = "nobody"
+	end
+	game_over = 1 if current_turn == "nobody"
+end
+
+def determine_winner(player_total, dealer_total)
+	puts player_total > dealer_total ? "You win!" : "Dealer wins!"
+end
+
+puts "What is your name?"
+player_name = gets.chomp
+
+puts "Welcome to the table, #{player_name}. Let's play Blackjack!"
+
+while true
+
+	start_hash = start_game
+	player_hand = start_hash[:player_hand]
+	dealer_hand = start_hash[:dealer_hand]
+	current_deck = start_hash[:current_deck]
+	current_turn = start_hash[:current_turn]
+
+	player_total = calculate_total(player_hand)
+	dealer_total = calculate_total(dealer_hand)
+
+	puts "#{player_name}\'s hand consists of: "
+	player_hand.each { |card| puts "#{card[0]} of #{card[1]}" }	
+
+	puts "Dealer shows one card face up: "
+	puts "#{dealer_hand.first[0]} of #{dealer_hand.first[1]}"
+
+	game_over = check_if_game_over(player_hand, player_total, current_turn)
+
+	if game_over != 1
+		hit_or_stay_hash = hit_or_stay(current_deck, player_hand, current_turn)
+		current_deck = hit_or_stay_hash[:current_deck]
+		player_hand = hit_or_stay_hash[:hand]
+		player_total = hit_or_stay_hash[:total]
+		game_over = hit_or_stay_hash[:game_over]
+	end
+
+	if game_over != 1
+			current_turn = "dealer"
+			hit_or_stay_hash = hit_or_stay(current_deck, dealer_hand, current_turn)
+			current_deck = hit_or_stay_hash[:current_deck]
+			dealer_hand = hit_or_stay_hash[:hand]
+			dealer_total = hit_or_stay_hash[:total]	
+
+			current_turn = "nobody"
+			determine_winner(player_total, dealer_total) 
+	end
+
+	puts "Would you like to play another game? [Y] or [N]"
+	another_game = gets.chomp
+	break if another_game == "N"
+
+end
+	
