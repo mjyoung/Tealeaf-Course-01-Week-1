@@ -33,41 +33,24 @@ end
 
 def calculate_total(hand)
 	hand_total = 0
-	
 	hand.each do |card|
 		case card[0]
-		when "King"
+		when "Ace" 
+			hand_total += 11
+		when "King", "Queen", "Jack"  # same as || which is not valid in a case statement
 			hand_total += 10
-		when "Queen"
-			hand_total += 10
-		when "Jack"
-			hand_total += 10
-		when "10"
-			hand_total += 10
-		when "9"
-			hand_total += 9
-		when "8"
-			hand_total += 8
-		when "7"
-			hand_total += 7
-		when "6"
-			hand_total += 6
-		when "5"
-			hand_total += 5
-		when "4"
-			hand_total += 4
-		when "3"
-			hand_total += 3
-		when "2"
-			hand_total += 2
-		when "Ace"
-			if hand_total > 11
-				hand_total += 1
-			else
-				hand_total += 11
-			end
+		else
+			hand_total += card[0].to_i
 		end
 	end
+
+	# correct for aces if total > 21
+	ace_array = hand.map { |card| card[0] }
+
+	ace_array.select{ |card| card == "Ace" }.count.times do
+		hand_total -= 10 if hand_total > 21
+	end
+
 	hand_total
 end
 
