@@ -17,6 +17,11 @@ def start_game
 		["10",    "Clubs"], ["10",    "Diamonds"], ["10",    "Hearts"], ["10",    "Spades"]
 	]
 
+	# better code for the above would have been:
+	# suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
+	# cards = ["Ace", "King", "Queen", "Jack", "10", "9", "8", "7", "6", "5", "4", "3", "2"]
+	# current_deck = cards.product(suits)
+
 	player_hand = current_deck.sample(2)
 	current_deck.delete(player_hand[0])
 	current_deck.delete(player_hand[1])
