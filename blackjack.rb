@@ -17,6 +17,7 @@ def start_game
 		["10",    "Clubs"], ["10",    "Diamonds"], ["10",    "Hearts"], ["10",    "Spades"]
 	]
 
+	# from solutions video...
 	# better code for the above would have been:
 	# suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
 	# cards = ["Ace", "King", "Queen", "Jack", "10", "9", "8", "7", "6", "5", "4", "3", "2"]
