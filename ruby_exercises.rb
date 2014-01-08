@@ -17,7 +17,7 @@ new_array = my_array.select { |value| value.odd? }  ## BETTER ALTERNATIVE
 
 new_array.insert(0,0)   # insert(index.obj)  [0, 1, 3, 5, 7, 9]
                         # new_array.unshift(0)  unshift adds a value to the beginning
-new_array.insert(-1,11) # alternatively, new_array << 11, or new_array.push(11)  [0, 1, 3, 5, 7, 9, 11]  
+new_array.insert(-1,11) # alternatively, new_array << 11, or new_array.push(11)  [0, 1, 3, 5, 7, 9, 11]
 
 
 # 5. Get rid of "11". And append a "3".
@@ -25,13 +25,13 @@ new_array.insert(-1,11) # alternatively, new_array << 11, or new_array.push(11) 
 new_array.delete(11)  # [0, 1, 3, 5, 7, 9]
 new_array.push(3)     # [0, 1, 3, 5, 7, 9, 3]
 
-# 6. Get rid of duplicates without specifically removing any one value. 
+# 6. Get rid of duplicates without specifically removing any one value.
 
 new_array.uniq!       # [0, 1, 3, 5, 7, 9]
 
 # 7. What's the major difference between an Array and a Hash?
 
-### The major difference is that an array uses ordered Integers as its index value, 
+### The major difference is that an array uses ordered Integers as its index value,
 ### while a Hash can use any object type as its key
 
 # 8. Create a Hash using both Ruby 1.8 and 1.9 syntax.
@@ -60,7 +60,7 @@ h.delete_if { |k, v| v < 3.5  # also h.select! { |key, value| value >= 3.5 }
 array1 = [0,1]
 array2 = [2,3]
 hash1 = { array1: array1, array2: array2 }  # {:array1=>[0, 1], :array2=>[2, 3]}
-  
+
 ### Yes, you can have an array of hashes. Example below:
 
 hash_dogs = { noise: "bark", enemy: "cats" }
@@ -71,9 +71,9 @@ array_pets = [ hash_dogs, hash_cats ]
 # 15. Look at several Rails/Ruby online API sources and say which one you like best and why.
 
 ### For Ruby, http://ruby-doc.org's documentation has been extremely helpful
-### I have zero experience with rails, but http://api.rubyonrails.org/ looks 
+### I have zero experience with rails, but http://api.rubyonrails.org/ looks
 ### relatively comprehensive.
 ### Offline documentation for Rails 4: https://github.com/passion8/Rails-4-offline-documentation
 
-### While not API, this site seems like it would be useful in that it has 
+### While not API, this site seems like it would be useful in that it has
 ### detailed examples on how to do common tasks in Rails: http://guides.rubyonrails.org/
