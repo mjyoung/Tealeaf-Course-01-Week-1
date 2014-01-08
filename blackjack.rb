@@ -79,7 +79,8 @@ def hit_or_stay(current_deck, hand, current_turn)
 				total = calculate_total(hand)
 				puts "You Stay! Your total is #{total}. Your cards are: "      
 				hand.each { |card| puts "#{card[0]} of #{card[1]}" }
-			break
+			  break
+      else "Please press [H]it or [S]tay"
 			end
 		else
 			total = calculate_total(hand)
@@ -174,7 +175,12 @@ while true
 
 	puts "Would you like to play another game? [Y] or [N]"
 	another_game = gets.chomp
-	break if another_game == "N"
+  case another_game
+  when "Y"
+  when "N"
+    break
+  else "Please press [Y] or [N]"
+  end
 
 end
 	
